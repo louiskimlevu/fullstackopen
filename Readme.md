@@ -7,4 +7,5 @@
 alice->bob:hello
 @enduml
 ```
+
 ![](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/louiskimlevu/fullstackopen/master/test.puml)
