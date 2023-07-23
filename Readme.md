@@ -2,10 +2,6 @@
 # Submissions for fullstackopen course
 [fullstackopen course](https://fullstackopen.com/en/)
 
-```plantuml
-@startuml
-alice->bob:hello
-@enduml
-```
+# puml test
 
-![](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/louiskimlevu/fullstackopen/master/test2.puml)
+![](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/louiskimlevu/fullstackopen/main/alice.puml)
