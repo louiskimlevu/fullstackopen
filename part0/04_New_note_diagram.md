@@ -1,4 +1,4 @@
-![](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/louiskimlevu/fullstackopen/main/04_new_note_diagram_v2.puml)
+![](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/louiskimlevu/fullstackopen/main/part0/04_new_note_diagram.puml)
 
 ```mermaid
 sequenceDiagram
