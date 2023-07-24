@@ -93,16 +93,4 @@ deactivate browser
 note over browser: - Parse the json\n- Create a new <ul> element\n- Create new <li> element for each note and append them to the <ul>.\n- Add the <ul> to the <div class="notes">
 end
 
-
-
-
-' user -> api: Process transaction\nPOST /prod/process
-' api -> lambda: Invokes lambda with cardholder details
-' lambda -> processor: Submit via API token\ncard number, expiry, CID
-' processor -> processor: Validate and create token
-' processor -> lambda: Returns status code and token
-' lambda -> db: PUT transaction id, token
-' lambda -> api: Returns\nstatus code, transaction id
-' api -> user: Returns status code
-
 @enduml
