@@ -37,9 +37,10 @@ $AWSIcon(User,"", "User", "") as user
 $AWSIcon(Client,"", "Browser", "") as browser
 $AWSIcon(Traditionalserver,"", "Express server", "Host: studies.cs.helsinki.fi") as server
 
-user -> browser: fill the new note form\nwith "hello" text
-user -> browser: submit the form
+hnote over browser #ACBED8: Notes page is fully loaded
 
+user -> browser: fill the note text input\nin the form
+user -> browser: submit the form\nby clicking the submit button
 
 browser -> server: POST /exampleapp/new_note\nPayload: note=hello
 activate browser $AWS_COLOR_SQUID
@@ -48,6 +49,8 @@ note over server: - Create a new note\n- Save the note in runtime memory inside 
 server --> browser: 302 redirect\nLocation: /exampleapp/notes
 deactivate server
 deactivate browser
+
+note over browser: - Reload the Notes page
 
 browser -> server: GET /exampleapp/notes
 activate browser $AWS_COLOR_SQUID
@@ -92,5 +95,7 @@ deactivate server
 deactivate browser
 note over browser: - Parse the json\n- Create a new <ul> element\n- Create new <li> element for each note and append them to the <ul>.\n- Add the <ul> to the <div class="notes">
 end
+
+hnote over browser #ACBED8: Notes page is fully loaded
 
 @enduml
