@@ -8,11 +8,14 @@ title New note sequence diagram
 ' !include AWSPuml/AWSExperimental.puml
 ' !include AWSPuml/ApplicationIntegration/APIGateway.puml
 ' !include AWSPuml/Compute/LambdaLambdaFunction.puml
+' !include AWSPuml/Compute/Lambda.puml
 ' !include AWSPuml/Database/DynamoDB.puml
 !include AWSPuml/General/User.puml
 !include AWSPuml/General/Client.puml
 !include AWSPuml/General/Servers.puml
 !include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml//AWSCloud.puml
+
 ' !include AWSPuml/NetworkingContentDelivery/CloudFront.puml
 ' !include AWSPuml/NetworkingContentDelivery/CloudFrontEdgeLocation.puml
 
@@ -38,6 +41,8 @@ participant "$AWSImg($service)\n<b>$line1</b>\n$line2"
 $AWSIcon(User, " ", "User\n") as user
 $AWSIcon(Client, " ", "Browser\n") as browser
 $AWSIcon(Servers, " ", "Server\n") as server
+$AWSIcon(Lambda, " ", "function\n") as function
+
 ' $AWSIcon(CloudFront, "Web Distribution", "Amazon CloudFront\n") as cf
 ' $AWSIcon(CloudFrontEdgeLocation, "Orgin Request", "AWS Lambda@Edge\n") as edge <<nodejs14.x>>
 ' $AWSIcon(DynamoDB, "Version Mappings", "Amazon DynamoDB\n") as dynamodb <<on-demand>>
