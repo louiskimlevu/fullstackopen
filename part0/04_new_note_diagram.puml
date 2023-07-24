@@ -8,7 +8,7 @@ title New note sequence diagram
 ' !include AWSPuml/AWSExperimental.puml
 ' !include AWSPuml/ApplicationIntegration/APIGateway.puml
 ' !include AWSPuml/Compute/LambdaLambdaFunction.puml
-' !include AWSPuml/Compute/Lambda.puml
+!include AWSPuml/Compute/Lambda.puml
 ' !include AWSPuml/Database/DynamoDB.puml
 !include AWSPuml/General/User.puml
 !include AWSPuml/General/Client.puml
