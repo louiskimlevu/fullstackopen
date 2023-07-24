@@ -1,23 +1,19 @@
 @startuml figure_04
 
-title New note sequence diagram
+title New note sequence
 
 ' This version has been update with current AWS icons and colors
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v16.0/dist
 !include AWSPuml/AWSCommon.puml
-' !include AWSPuml/AWSExperimental.puml
-' !include AWSPuml/ApplicationIntegration/APIGateway.puml
-' !include AWSPuml/Compute/LambdaLambdaFunction.puml
-!include AWSPuml/Compute/Lambda.puml
-' !include AWSPuml/Database/DynamoDB.puml
+!include AWSPuml/AWSExperimental.puml
 !include AWSPuml/General/User.puml
 !include AWSPuml/General/Client.puml
-!include AWSPuml/General/Servers.puml
-!include AWSPuml/Groups/AWSCloud.puml
-!include AWSPuml//AWSCloud.puml
+!include AWSPuml/General/Traditionalserver.puml
 
-' !include AWSPuml/NetworkingContentDelivery/CloudFront.puml
-' !include AWSPuml/NetworkingContentDelivery/CloudFrontEdgeLocation.puml
+!procedure $AWSIcon($service,$line1, $line2, $line3="")
+participant "$line1\n$AWSImg($service)\n<b>$line2</b>\n$line3"
+!endprocedure 
+
 
 hide footbox
 skinparam style strictuml
@@ -30,76 +26,83 @@ skinparam Note {
     BackgroundColor #BUSINESS
 }
 
-skinparam shadowing true
+skinparam shadowing false
 skinparam MaxMessageSize 600
+skinparam ArrowFontColor $AWS_COLOR_GRAY
 
-!procedure $AWSIcon($service, $line1, $line2="")
-participant "$AWSImg($service)\n<b>$line1</b>\n$line2"
-!endprocedure 
+' UserParticipant(client,,)
+' ClientParticipant(client,Browser,)
+' $AWSIcon(User,"//<< salut >>//", "<b>Romain</b>", "User") as user
+$AWSIcon(User,"", "User", "") as user
+$AWSIcon(Client,"", "Browser", "") as browser
+$AWSIcon(Traditionalserver,"", "Express server", "Host: studies.cs.helsinki.fi") as server
+
+user -> browser: fill the new note form\nwith "hello" text
+user -> browser: submit the form
 
 
-$AWSIcon(User, " ", "User\n") as user
-$AWSIcon(Client, " ", "Browser\n") as browser
-$AWSIcon(Servers, " ", "Server\n") as server
-$AWSIcon(Lambda, " ", "function\n") as function
+browser -> server: POST /exampleapp/new_note\nPayload: note=hello
+activate browser $AWS_COLOR_SQUID
+activate server $AWSColor(NetworkingContentDelivery)
+note over server: - Create a new note\n- Save the note in runtime memory inside the notes array variable\n- Send a redirect
+server --> browser: 302 redirect\nLocation: /exampleapp/notes
+deactivate server
+deactivate browser
 
-' $AWSIcon(CloudFront, "Web Distribution", "Amazon CloudFront\n") as cf
-' $AWSIcon(CloudFrontEdgeLocation, "Orgin Request", "AWS Lambda@Edge\n") as edge <<nodejs14.x>>
-' $AWSIcon(DynamoDB, "Version Mappings", "Amazon DynamoDB\n") as dynamodb <<on-demand>>
+browser -> server: GET /exampleapp/notes
+activate browser $AWS_COLOR_SQUID
+activate server $AWSColor(NetworkingContentDelivery)
+note over server: - Generate HTML from a template string\n- Send the html in the HTTP response
+server --> browser: 200 OK\nResponse: html content
+deactivate server
+deactivate browser
 
-' box API Version 1
-' $AWSIcon(APIGateway, "API V1", "Amazon API\nGateway") as api2 <<REST API>>
-' $AWSIcon(LambdaLambdaFunction, "Function V1", "AWS Lambda\n") as lambda2 <<nodejs14.x>>
-' end box
+note over browser: - Parse HTML to build the DOM tree\n- Find external links to CSS and javascript and fetch them\n- Render HTML content
 
-' alt missing Accept-Version header
-'     user -> cf: GET /hello\nHost: {distribution}.cloudfront.net
-'     activate user $AWS_COLOR_SQUID
-'     activate cf $AWSColor(NetworkingContentDelivery)
-'     cf -> edge: handle(event)
-'     activate edge $AWSColor(NetworkingContentDelivery)
-'     edge --> cf: cf.response object\nwith status=400 and\ncustom description
-'     deactivate edge
-'     cf --> user: HTTP/1.1 400 Version Required
-'     deactivate cf
-'     deactivate user
+browser -> server: GET /exampleapp/main.css
+activate browser $AWS_COLOR_SQUID
+activate server $AWSColor(NetworkingContentDelivery)
+note over server: - Send the CSS in the HTTP response
+server --> browser: 200 OK\nResponse: CSS content
+deactivate server
+deactivate browser
 
-' else else
-'     user -> cf: GET /hello\nHost: {distribution}.cloudfront.net\nAccept-Version: {V#}
-'     activate user $AWS_COLOR_SQUID
-'     activate cf $AWSColor(NetworkingContentDelivery)
-'     cf -> edge: handle(event)
-'     activate edge $AWSColor(NetworkingContentDelivery)
-'     group opt   [version mappings not cached]
-'         edge -> dynamodb: table scan
-'         activate dynamodb $AWSColor(Database)
-'         dynamodb --> edge: items
-'         deactivate dynamodb
-'         edge -> edge: cache version mappings
-'     end
+note over browser: - Render CSS on the page
 
-'     edge -> edge: lookup API version
-    
-'     alt version not found
-'         edge --> cf: cf.response object\nwith status=404 and\ncustom description
-'         note right
-'             Accept-Version: V3
-'         end note
-'         cf --> user: HTTP/1.1 404 Version Not Found
-'     else else
-'         edge --> cf: cf.request object\nwith updated path\nand Host header
-'         note right
-'             Accept-Version: V1
-'         end note
-'         deactivate edge
-'         cf->api2++ $AWSColor(ApplicationIntegration): GET /Prod/v1\nHost: {API V1}.execute-api.{region}.amazonaws.com
-'         api2->lambda2++ $AWSColor(Compute):
-'         return 
-'         return
-'         cf --> user: HTTP/1.1 200 OK\lContent-Type: application/json\l\l{\l  "message" : "API V1: Hello world!"\l}
-'         deactivate cf
-'         deactivate user
-'     end
-' end 
+
+browser -> server: GET /exampleapp/main.js
+activate browser $AWS_COLOR_SQUID
+activate server $AWSColor(NetworkingContentDelivery)
+note over server: - Send the javascript in the HTTP response
+server --> browser: 200 OK\nResponse: javascript content
+deactivate server
+deactivate browser
+
+note over browser: - Run the javascript code
+
+
+
+group main.js
+browser -> server: GET /exampleapp/data.json
+activate browser $AWS_COLOR_SQUID
+activate server $AWSColor(NetworkingContentDelivery)
+note over server: - Send the notes in json format in the HTTP response
+server --> browser: 200 OK\nResponse: json content
+deactivate server
+deactivate browser
+note over browser: - Parse the json\n- Create a new <ul> element\n- Create new <li> element for each note and append them to the <ul>.\n- Add the <ul> to the <div class="notes">
+end
+
+
+
+
+' user -> api: Process transaction\nPOST /prod/process
+' api -> lambda: Invokes lambda with cardholder details
+' lambda -> processor: Submit via API token\ncard number, expiry, CID
+' processor -> processor: Validate and create token
+' processor -> lambda: Returns status code and token
+' lambda -> db: PUT transaction id, token
+' lambda -> api: Returns\nstatus code, transaction id
+' api -> user: Returns status code
 
 @enduml
