@@ -1,6 +1,6 @@
 @startuml figure_04
 
-title New note sequence
+title new note diagram
 
 ' This version has been update with current AWS icons and colors
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v16.0/dist
